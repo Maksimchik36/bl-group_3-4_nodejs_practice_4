@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 const JWT = require("jsonwebtoken");
 const RoleModel = require("../models/roleModel");
 
-
 class AuthController {
   //1. валідуємо обовязкові поля з моделі
   //2. шукаємо користувача в БД по еmail
@@ -38,7 +37,6 @@ class AuthController {
     res.status(201).json({ code: 201, status: "Success", data: user });
   });
 
-
   login = asyncHandler(async (req, res) => {
     const { userPassword, userEmail } = req.body;
     if (!userPassword || !userEmail) {
@@ -60,7 +58,6 @@ class AuthController {
     res.status(200).json({ code: 200, status: "Success", data: user });
   });
 
-
   logout = asyncHandler(async (req, res) => {
     const { id } = req.user;
     const user = await UserModel.findById(id);
@@ -74,17 +71,14 @@ class AuthController {
       .json({ code: 200, status: "Success", message: "Logout success!" });
   });
 
-
   info = asyncHandler(async (req, res) => {
     res.send("Access granded you are ADMIN");
   });
-
 
   generateToken = (id, roles) => {
     const payload = { id, roles };
     return JWT.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "8h" });
   };
 }
-
 
 module.exports = new AuthController();
